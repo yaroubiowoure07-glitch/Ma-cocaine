@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pour Bella ❤️</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Georgia', serif;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    div {
+      max-width: 700px;
+      animation: fadeIn 3s ease-in-out;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+    }
+    p {
+      font-size: 1.3em;
+      line-height: 1.6em;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Pour Bella ❤️</h1>
+    <p>
+      Bella… La première fois que nos regards se sont croisés, j’ai senti le monde ralentir, comme si tout autour de nous disparaissait. 
+      J’ai longtemps hésité à te parler, par peur que mes mots ne soient pas assez grands pour contenir ce que je ressentais. 
+      Mais aujourd’hui, je n’ai plus peur : je t’aime Bella, je t’aime Bella, je t’aime Bella… et je t’aimerai encore demain, et tous les jours qui suivront. ❤️
+    </p>
+    <p>
+      Et même si je ne te l’ai pas dit l’autre soir dans les escaliers… je t’aime, Bella. 
+      Alors je te le demande aujourd’hui, simplement, sincèrement : veux-tu être ma petite amie ? 💖
+    </p>
+  </div>
+</body>
+</html>
