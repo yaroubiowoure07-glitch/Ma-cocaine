@@ -6,6 +6,8 @@
   <style>
     body {
       background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -14,22 +16,88 @@
       color: #fff;
       text-align: center;
       padding: 20px;
+      overflow: hidden;
     }
+
     div {
       max-width: 700px;
       animation: fadeIn 3s ease-in-out;
     }
+
     h1 {
       font-size: 2.5em;
       margin-bottom: 0.5em;
+      background: linear-gradient(90deg, #fff, #ff4d6d, #fff);
+      background-size: 200% auto;
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: shimmer 3s infinite linear;
     }
+
     p {
       font-size: 1.3em;
       line-height: 1.6em;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: zoomIn 2s ease forwards;
     }
+
+    p:nth-of-type(1) {
+      animation-delay: 1s;
+    }
+
+    p:nth-of-type(2) {
+      animation-delay: 3s;
+    }
+
+    .jeTaime {
+      display: inline-block;
+      animation: heartbeat 1.2s infinite;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes zoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      color: #ff4d6d;
+      animation: fall 6s linear infinite;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -39,13 +107,23 @@
     <p>
       Bella… La première fois que nos regards se sont croisés, j’ai senti le monde ralentir, comme si tout autour de nous disparaissait. 
       J’ai longtemps hésité à te parler, par peur que mes mots ne soient pas assez grands pour contenir ce que je ressentais. 
-      Mais aujourd’hui, je n’ai plus peur : je t’aime Bella, je t’aime Bella, je t’aime Bella… et je t’aimerai encore demain, et tous les jours qui suivront. ❤️
+      Mais aujourd’hui, je n’ai plus peur : <span class="jeTaime">je t’aime Bella</span>, <span class="jeTaime">je t’aime Bella</span>, <span class="jeTaime">je t’aime Bella</span>… et je t’aimerai encore demain, et tous les jours qui suivront. ❤️
     </p>
     <p>
-      Et même si je ne te l’ai pas dit l’autre soir dans les escaliers… je t’aime, Bella. 
+      Et même si je ne te l’ai pas dit l’autre soir dans les escaliers… <span class="jeTaime">je t’aime, Bella</span>. 
       Alors je te le demande aujourd’hui, simplement, sincèrement : veux-tu être ma petite amie ? 💖
     </p>
   </div>
+
+  <script>
+    for (let i = 0; i < 30; i++) {
+      let heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDelay = Math.random() * 5 + "s";
+      heart.innerHTML = "❤️";
+      document.body.appendChild(heart);
+    }
+  </script>
 </body>
 </html>
-
