@@ -13,7 +13,6 @@
       color: #fff;
       overflow-x: hidden;
       position: relative;
-      z-index: 0;
       animation: fadeIn 3s ease-in;
     }
 
@@ -24,10 +23,8 @@
 
     .overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.6);
       animation: pulse-bg 3s infinite;
       z-index: 0;
@@ -76,31 +73,32 @@
       50% { transform: scale(1.2); }
     }
 
-    .wave-scroll {
-      display: flex;
-      justify-content: center;
-      font-size: 3em;
+    .multi-waves {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .wave {
+      position: absolute;
+      font-size: 2.5em;
       font-weight: bold;
       color: #ff3366;
-      animation: scrollWave 10s linear infinite;
-      margin-top: 40px;
-      z-index: 1;
-      position: relative;
+      animation: floatWave 8s infinite ease-in-out;
     }
 
-    .wave-scroll span {
-      display: inline-block;
-      animation: wave 1.5s infinite ease-in-out;
-    }
+    .wave:nth-child(1) { top: 10px; left: 0; animation-delay: 0s; }
+    .wave:nth-child(2) { top: 50px; left: 20%; animation-delay: 1s; }
+    .wave:nth-child(3) { top: 90px; left: 40%; animation-delay: 2s; }
+    .wave:nth-child(4) { top: 130px; left: 60%; animation-delay: 3s; }
 
-    @keyframes scrollWave {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    @keyframes wave {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
+    @keyframes floatWave {
+      0% { transform: translateX(0) translateY(0); }
+      25% { transform: translateX(30px) translateY(-10px); }
+      50% { transform: translateX(60px) translateY(10px); }
+      75% { transform: translateX(30px) translateY(-10px); }
+      100% { transform: translateX(0) translateY(0); }
     }
 
     .falling, .petal {
@@ -116,49 +114,23 @@
       100% { transform: translateY(100vh); opacity: 0; }
     }
 
-    .btn-oui, .btn-non {
-      padding: 15px 30px;
+    .choix {
+      text-align: center;
+      margin-top: 30px;
       font-size: 1.5em;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      margin: 20px;
       z-index: 1;
       position: relative;
     }
 
-    .btn-oui {
-      background-color: #ff3366;
-      color: white;
-      animation: pulse 2s infinite;
-    }
-
-    .btn-non {
-      background-color: #333;
-      color: white;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 15px #ff3366; }
-      50% { transform: scale(1.1); box-shadow: 0 0 25px #ff6699; }
-      100% { transform: scale(1); box-shadow: 0 0 15px #ff3366; }
-    }
-
-    .love-scene, .broken-scene {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: fadeIn 2s ease forwards;
-      z-index: 999;
+    .choix input[type="checkbox"] {
+      transform: scale(1.5);
+      margin-right: 10px;
+      cursor: pointer;
     }
 
     .big-heart {
       font-size: 3em;
-      color: #fff;
+      color: white;
       background: #ff3366;
       padding: 40px;
       border-radius: 50%;
@@ -179,7 +151,20 @@
       100% { transform: rotate(0deg); }
     }
 
-    .hidden { display: none; }
+    .hidden {
+      display: none;
+    }
+
+    #scene-oui, #scene-non {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
@@ -206,18 +191,23 @@
 
   <div class="je-taime">Je t’aime Bella</div>
 
-  <div class="wave-scroll">
-    <span>F</span><span>a</span><span>w</span><span>a</span><span>z</span>
+  <div class="multi-waves">
+    <div class="wave">Fawaz</div>
+    <div class="wave">Fawaz</div>
+    <div class="wave">Fawaz</div>
+    <div class="wave">Fawaz</div>
   </div>
 
-  <button onclick="showLove()" class="btn-oui">Oui 💖</button>
-  <button onclick="showBrokenHeart()" class="btn-non">Non 💔</button>
+  <div class="choix">
+    <label><input type="checkbox" id="oui" onchange="choixOui()"> Oui 💖</label>
+    <label><input type="checkbox" id="non" onchange="choixNon()"> Non 💔</label>
+  </div>
 
-  <div id="loveScene" class="love-scene hidden">
+  <div id="scene-oui" class="hidden">
     <div class="big-heart">Fawaz ❤️ Bella</div>
   </div>
 
-  <div id="brokenHeartScene" class="broken-scene hidden">
+  <div id="scene-non" class="hidden">
     <div class="broken-heart">💔</div>
   </div>
 
@@ -226,7 +216,7 @@
   </audio>
 
   <script>
-    // Pluie de cœurs
+    // Pluie de cœurs et pétales
     for (let i = 0; i < 30; i++) {
       let el = document.createElement('div');
       el.className = 'falling';
@@ -236,7 +226,6 @@
       document.body.appendChild(el);
     }
 
-    // Pluie de pétales supplémentaires
     for (let i = 0; i < 20; i++) {
       let petal = document.createElement('div');
       petal.className = 'petal';
@@ -250,4 +239,6 @@
     const music = document.getElementById('romanticMusic');
     music.volume = 0;
     music.play();
-    let vol
+    let vol = 0;
+    const fade = setInterval(() => {
+      if (vol < 1
