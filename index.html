@@ -1,248 +1,99 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Ma Cocaine</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('bella.png') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      overflow-x: hidden;
-      position: relative;
-      animation: fadeIn 3s ease-in;
-    }
+<script>
+  // Pluie de cœurs et pétales
+  for (let i = 0; i < 30; i++) {
+    let el = document.createElement('div');
+    el.className = 'falling';
+    el.innerText = Math.random() > 0.5 ? '❤️' : '🌹';
+    el.style.left = Math.random() * window.innerWidth + 'px';
+    el.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(el);
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+  for (let i = 0; i < 20; i++) {
+    let petal = document.createElement('div');
+    petal.className = 'petal';
+    petal.innerText = '🌸';
+    petal.style.left = Math.random() * window.innerWidth + 'px';
+    petal.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(petal);
+  }
 
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      animation: pulse-bg 3s infinite;
-      z-index: 0;
+  // Fondu progressif de la musique
+  const music = document.getElementById('romanticMusic');
+  music.volume = 0;
+  music.play();
+  let vol = 0;
+  const fade = setInterval(() => {
+    if (vol < 1) {
+      vol += 0.01;
+      music.volume = vol;
+    } else {
+      clearInterval(fade);
     }
+  }, 100);
 
-    @keyframes pulse-bg {
-      0%, 100% { background-color: rgba(0, 0, 0, 0.6); }
-      50% { background-color: rgba(255, 51, 102, 0.2); }
-    }
+  // Génération dynamique des vagues "Fawaz"
+  const wavesContainer = document.querySelector('.multi-waves');
+  for (let i = 0; i < 10; i++) {
+    const wave = document.createElement('div');
+    wave.className = 'wave';
+    wave.innerText = 'Fawaz';
+    wave.style.top = `${i * 40}px`;
+    wave.style.left = `${Math.random() * 80}%`;
+    wave.style.animationDelay = `${i}s`;
+    wavesContainer.appendChild(wave);
+  }
 
-    h1 {
-      text-align: center;
-      font-size: 2.5em;
-      color: #ff3366;
-      margin-top: 30px;
-      z-index: 1;
-      position: relative;
-    }
+  // Choix Oui 💖
+  function choixOui() {
+    setTimeout(() => {
+      document.getElementById('scene-oui').classList.remove('hidden');
+      document.getElementById('scene-non').classList.add('hidden');
 
-    .message {
-      text-align: center;
-      font-size: 1.2em;
-      margin: 20px auto;
-      max-width: 600px;
-      line-height: 1.6;
-      z-index: 1;
-      position: relative;
-    }
-
-    .je-taime {
-      animation: heartbeat 1s infinite;
-      color: #ff3366;
-      font-size: 2em;
-      text-align: center;
-      margin-top: 20px;
-      z-index: 1;
-      position: relative;
-      text-shadow: 0 0 10px #ff3366;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-
-    .multi-waves {
-      position: relative;
-      height: 400px;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .wave {
-      position: absolute;
-      font-size: 2.5em;
-      font-weight: bold;
-      color: #ff3366;
-      animation: floatWave 8s infinite ease-in-out;
-    }
-
-    @keyframes floatWave {
-      0% { transform: translateX(0) translateY(0); }
-      25% { transform: translateX(30px) translateY(-10px); }
-      50% { transform: translateX(60px) translateY(10px); }
-      75% { transform: translateX(30px) translateY(-10px); }
-      100% { transform: translateX(0) translateY(0); }
-    }
-
-    .falling, .petal {
-      position: absolute;
-      font-size: 2em;
-      animation: fall 10s linear infinite;
-      top: -50px;
-      z-index: 0;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
-
-    .choix {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 1.5em;
-      z-index: 1;
-      position: relative;
-    }
-
-    .choix input[type="checkbox"] {
-      transform: scale(1.5);
-      margin-right: 10px;
-      cursor: pointer;
-    }
-
-    .big-heart {
-      font-size: 3em;
-      color: white;
-      background: #ff3366;
-      padding: 40px;
-      border-radius: 50%;
-      animation: heartbeat 1s infinite;
-    }
-
-    .broken-heart {
-      font-size: 5em;
-      animation: shake 0.5s infinite;
-      color: #ff3366;
-    }
-
-    @keyframes shake {
-      0% { transform: rotate(0deg); }
-      25% { transform: rotate(-10deg); }
-      50% { transform: rotate(10deg); }
-      75% { transform: rotate(-10deg); }
-      100% { transform: rotate(0deg); }
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    #scene-oui, #scene-non {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .explosion-heart {
-      position: absolute;
-      font-size: 2em;
-      color: #ff3366;
-      animation: explode 1.5s ease-out forwards;
-    }
-
-    @keyframes explode {
-      0% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(0.5) translate(200px, -200px); opacity: 0; }
-    }
-
-    .falling-big-heart {
-      position: fixed;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 6em;
-      animation: dropHeart 2s ease-in forwards, breakHeart 2s 2s forwards;
-      z-index: 1000;
-    }
-
-    @keyframes dropHeart {
-      0% { top: -100px; }
-      100% { top: 50%; }
-    }
-
-    @keyframes breakHeart {
-      0% { transform: translateX(-50%) scale(1); }
-      100% {
-        transform: translateX(-50%) scale(1.2) rotate(20deg);
-        color: #990000;
-        opacity: 0.5;
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'explosion-heart';
+        heart.innerText = '❤️';
+        heart.style.position = 'absolute';
+        heart.style.left = '50%';
+        heart.style.top = '50%';
+        heart.style.fontSize = '2em';
+        heart.style.animation = 'explode 1.5s ease-out forwards';
+        heart.style.transform = `translate(${Math.random() * 400 - 200}px, ${Math.random() * 400 - 200}px)`;
+        document.body.appendChild(heart);
       }
+
+      document.body.style.background = 'radial-gradient(circle, #ff3366, #000)';
+    }, 300);
+  }
+
+  // Choix Non 💔
+  function choixNon() {
+    setTimeout(() => {
+      document.getElementById('scene-non').classList.remove('hidden');
+      document.getElementById('scene-oui').classList.add('hidden');
+
+      const falling = document.createElement('div');
+      falling.className = 'falling-big-heart';
+      falling.innerText = '💔';
+      document.body.appendChild(falling);
+
+      document.body.style.background = 'linear-gradient(to bottom, #000, #330000)';
+    }, 300);
+  }
+
+  // Empêcher les deux cases cochées
+  document.getElementById('oui').addEventListener('change', function () {
+    if (this.checked) {
+      document.getElementById('non').checked = false;
+      choixOui();
     }
-  </style>
-</head>
-<body>
+  });
 
-  <div class="overlay"></div>
-
-  <h1>Pour Bella ❤️</h1>
-
-  <div class="message">
-    <p>
-      Bella… La première fois que nos regards se sont croisés, j’ai senti le monde ralentir, comme si tout autour de nous disparaissait.
-      J’ai longtemps hésité à te parler, par peur que mes mots ne soient pas assez grands pour contenir ce que je ressentais.
-      Mais aujourd’hui, je n’ai plus peur :
-      <span class="je-taime">je t’aime Bella</span>,
-      <span class="je-taime">je t’aime Bella</span>,
-      <span class="je-taime">je t’aime Bella</span>… et je t’aimerai encore demain, et tous les jours qui suivront. ❤️
-    </p>
-    <p>
-      Et même si je ne te l’ai pas dit l’autre soir dans les escaliers…
-      <span class="je-taime">je t’aime, Bella</span>.
-      Alors je te le demande aujourd’hui, simplement, sincèrement : veux-tu être ma petite amie ? 💖
-    </p>
-  </div>
-
-  <div class="je-taime">Je t’aime Bella</div>
-
-  <div class="multi-waves"></div>
-
-  <div class="choix">
-    <label><input type="checkbox" id="oui"> Oui 💖</label>
-    <label><input type="checkbox" id="non"> Non 💔</label>
-  </div>
-
-  <div id="scene-oui" class="hidden">
-    <div class="big-heart">Fawaz ❤️ Bella</div>
-  </div>
-
-  <div id="scene-non" class="hidden">
-    <div class="broken-heart">💔</div>
-  </div>
-
-  <audio id="romanticMusic" autoplay loop>
-    <source src="love-romantic-hopeful.mp3" type="audio/mpeg">
-  </audio>
-
-  <script>
-    // Pluie de cœurs et pétales
-    for (let i = 0; i < 30; i++) {
-      let el = document.createElement('div');
-      el.className = 'falling';
-      el.innerText = Math.random() > 0.5 ? '❤️' : '🌹';
-      el.style.left = Math.random() * window.innerWidth + 'px';
-      el.style.animationDelay = Math.random() * 10
+  document.getElementById('non').addEventListener('change', function () {
+    if (this.checked) {
+      document.getElementById('oui').checked = false;
+      choixNon();
+    }
+  });
+</script>
