@@ -54,10 +54,6 @@
       position: relative;
     }
 
-    .message p {
-      margin-bottom: 15px;
-    }
-
     .je-taime {
       animation: heartbeat 1s infinite;
       color: #ff3366;
@@ -66,6 +62,7 @@
       margin-top: 20px;
       z-index: 1;
       position: relative;
+      text-shadow: 0 0 10px #ff3366;
     }
 
     @keyframes heartbeat {
@@ -75,7 +72,7 @@
 
     .multi-waves {
       position: relative;
-      height: 200px;
+      height: 400px;
       overflow: hidden;
       z-index: 1;
     }
@@ -87,11 +84,6 @@
       color: #ff3366;
       animation: floatWave 8s infinite ease-in-out;
     }
-
-    .wave:nth-child(1) { top: 10px; left: 0; animation-delay: 0s; }
-    .wave:nth-child(2) { top: 50px; left: 20%; animation-delay: 1s; }
-    .wave:nth-child(3) { top: 90px; left: 40%; animation-delay: 2s; }
-    .wave:nth-child(4) { top: 130px; left: 60%; animation-delay: 3s; }
 
     @keyframes floatWave {
       0% { transform: translateX(0) translateY(0); }
@@ -165,6 +157,42 @@
       align-items: center;
       z-index: 999;
     }
+
+    .explosion-heart {
+      position: absolute;
+      font-size: 2em;
+      color: #ff3366;
+      animation: explode 1.5s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.5) translate(200px, -200px); opacity: 0; }
+    }
+
+    .falling-big-heart {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 6em;
+      animation: dropHeart 2s ease-in forwards, breakHeart 2s 2s forwards;
+      z-index: 1000;
+    }
+
+    @keyframes dropHeart {
+      0% { top: -100px; }
+      100% { top: 50%; }
+    }
+
+    @keyframes breakHeart {
+      0% { transform: translateX(-50%) scale(1); }
+      100% {
+        transform: translateX(-50%) scale(1.2) rotate(20deg);
+        color: #990000;
+        opacity: 0.5;
+      }
+    }
   </style>
 </head>
 <body>
@@ -191,16 +219,11 @@
 
   <div class="je-taime">Je t’aime Bella</div>
 
-  <div class="multi-waves">
-    <div class="wave">Fawaz</div>
-    <div class="wave">Fawaz</div>
-    <div class="wave">Fawaz</div>
-    <div class="wave">Fawaz</div>
-  </div>
+  <div class="multi-waves"></div>
 
   <div class="choix">
-    <label><input type="checkbox" id="oui" onchange="choixOui()"> Oui 💖</label>
-    <label><input type="checkbox" id="non" onchange="choixNon()"> Non 💔</label>
+    <label><input type="checkbox" id="oui"> Oui 💖</label>
+    <label><input type="checkbox" id="non"> Non 💔</label>
   </div>
 
   <div id="scene-oui" class="hidden">
@@ -222,23 +245,4 @@
       el.className = 'falling';
       el.innerText = Math.random() > 0.5 ? '❤️' : '🌹';
       el.style.left = Math.random() * window.innerWidth + 'px';
-      el.style.animationDelay = Math.random() * 10 + 's';
-      document.body.appendChild(el);
-    }
-
-    for (let i = 0; i < 20; i++) {
-      let petal = document.createElement('div');
-      petal.className = 'petal';
-      petal.innerText = '🌸';
-      petal.style.left = Math.random() * window.innerWidth + 'px';
-      petal.style.animationDelay = Math.random() * 10 + 's';
-      document.body.appendChild(petal);
-    }
-
-    // Fondu progressif de la musique
-    const music = document.getElementById('romanticMusic');
-    music.volume = 0;
-    music.play();
-    let vol = 0;
-    const fade = setInterval(() => {
-      if (vol < 1
+      el.style.animationDelay = Math.random() * 10
