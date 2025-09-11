@@ -2,189 +2,144 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Pour Bella ❤️</title>
+  <title>Bella ❤️</title>
   <style>
     body {
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      overflow: hidden;
       margin: 0;
-      padding: 0;
-      font-family: 'Georgia', serif;
-      color: #fff;
-      text-align: center;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      background: black;
+      overflow: hidden;
+      color: white;
+      font-family: "Georgia", serif;
+      text-align: center;
     }
-
-    div {
-      max-width: 700px;
-      padding: 20px;
-      animation: apparitionLumineuse 3s ease-in-out forwards;
-      z-index: 1;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 0.5em;
-      animation: battement 1.5s infinite;
-    }
-
-    p {
-      font-size: 1.3em;
-      line-height: 1.6em;
-      opacity: 0;
-      animation: apparitionLumineuse 3s ease-in-out forwards;
-      animation-delay: 1s;
-    }
-
-    @keyframes battement {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-
-    @keyframes apparitionLumineuse {
-      0% { opacity: 0; text-shadow: none; }
-      100% { opacity: 1; text-shadow: 0 0 20px #fff; }
-    }
-
-    .boutons {
-      margin-top: 30px;
-      z-index: 2;
-    }
-
-    button {
-      font-size: 1.2em;
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      background-color: #fff;
-      color: #ee9ca7;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.1);
-    }
-
-    /* Explosion de cœurs */
-    .coeur-explosion {
+    canvas {
+      display: block;
       position: absolute;
-      font-size: 20px;
-      animation: pop 2s ease-out;
-      pointer-events: none;
-      color: #fff;
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0); opacity: 1; }
-      100% { transform: scale(2); opacity: 0; }
-    }
-
-    /* Cœurs brisés */
-    .coeur-brise {
-      position: absolute;
-      font-size: 24px;
-      color: #fff;
-      animation: tomberEtBriser 4s ease-in forwards;
-      pointer-events: none;
-    }
-
-    @keyframes tomberEtBriser {
-      0% { transform: translateY(-50px) scale(1); opacity: 1; }
-      90% { transform: translateY(90vh) scale(1); opacity: 1; }
-      100% { transform: translateY(90vh) scale(0.5) rotate(45deg); opacity: 0.2; }
-    }
-
-    /* Vagues de Fawaz */
-    .vague-container {
-      position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
     }
-
-    .vague {
+    #loveText {
       position: absolute;
-      font-size: 2em;
-      color: rgba(255, 255, 255, 0.3);
-      animation: flotter 10s infinite ease-in-out;
-    }
-
-    @keyframes flotter {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(50vw, 20vh) rotate(45deg); }
-      50% { transform: translate(20vw, 80vh) rotate(90deg); }
-      75% { transform: translate(80vw, 50vh) rotate(135deg); }
-      100% { transform: translate(0, 0) rotate(180deg); }
+      bottom: 80px;
+      width: 100%;
+      text-align: center;
+      font-size: 28px;
+      opacity: 0;
+      transition: opacity 3s ease;
+      color: #ff4d6d;
     }
   </style>
 </head>
 <body>
-  <div>
-    <h1>Pour Bella ❤️</h1>
-    <p>
-      Bella… La première fois que nos regards se sont croisés, j’ai senti le monde ralentir, comme si tout autour de nous disparaissait.  
-      J’ai longtemps hésité à te parler, par peur que mes mots ne soient pas assez grands pour contenir ce que je ressentais.  
-      Mais aujourd’hui, je n’ai plus peur : je t’aime Bella, je t’aime Bella, je t’aime Bella… et je t’aimerai encore demain, et tous les jours qui suivront. ❤️
-    </p>
-    <p>
-      Et même si je ne te l’ai pas dit l’autre soir dans les escaliers… je t’aime, Bella.  
-      Alors je te le demande aujourd’hui, simplement, sincèrement : veux-tu être ma petite amie ? 💖
-    </p>
-    <div class="boutons">
-      <button onclick="reponseOui()">Oui 💖</button>
-      <button onclick="reponseNon()">Non 💔</button>
-    </div>
-  </div>
-
-  <div class="vague-container"></div>
+  <canvas id="loveCanvas"></canvas>
+  <div id="loveText">Avec toi chaque instant devient magique, je t'aime Bella ❤️</div>
 
   <script>
-    // Vagues de Fawaz
-    for (let i = 0; i < 10; i++) {
-      const span = document.createElement("span");
-      span.className = "vague";
-      span.textContent = "Fawaz";
-      span.style.top = Math.random() * window.innerHeight + "px";
-      span.style.left = Math.random() * window.innerWidth + "px";
-      span.style.animationDelay = Math.random() * 10 + "s";
-      document.querySelector(".vague-container").appendChild(span);
-    }
+    const canvas = document.getElementById("loveCanvas");
+    const ctx = canvas.getContext("2d");
 
-    // Réponse Oui : explosion de cœurs
-    function reponseOui() {
-      for (let i = 0; i < 100; i++) {
-        const coeur = document.createElement("div");
-        coeur.className = "coeur-explosion";
-        coeur.innerText = "💖";
-        coeur.style.left = Math.random() * window.innerWidth + "px";
-        coeur.style.top = Math.random() * window.innerHeight + "px";
-        document.body.appendChild(coeur);
-        setTimeout(() => coeur.remove(), 2000);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const word = "BELLA";
+    const heart = "❤️";
+    const fontSize = 30;
+
+    let currentLetter = 0;
+    let opacity = 1;
+    let showingFull = false;
+    let particles = [];
+
+    function drawLetter(letter, x, y, alpha = 1, scale = 1) {
+      ctx.font = fontSize * scale + "px monospace";
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+
+      let temp = document.createElement("canvas");
+      temp.width = 200;
+      temp.height = 200;
+      let tctx = temp.getContext("2d");
+      tctx.font = fontSize * 4 * scale + "px bold monospace";
+      tctx.fillStyle = "white";
+      tctx.fillText(letter, 50, 150);
+
+      let imageData = tctx.getImageData(0, 0, temp.width, temp.height);
+
+      for (let i = 0; i < temp.width; i += 12) {
+        for (let j = 0; j < temp.height; j += 12) {
+          let index = (j * temp.width + i) * 4;
+          if (imageData.data[index + 3] > 128) {
+            ctx.fillText(heart, x + i, y + j);
+          }
+        }
       }
     }
 
-    // Réponse Non : pluie de cœurs brisés
-    function reponseNon() {
-      for (let i = 0; i < 50; i++) {
-        const coeur = document.createElement("div");
-        coeur.className = "coeur-brise";
-        coeur.innerText = "💔";
-        coeur.style.left = Math.random() * window.innerWidth + "px";
-        coeur.style.top = "-50px";
-        document.body.appendChild(coeur);
-        setTimeout(() => coeur.remove(), 4000);
+    function createExplosion() {
+      for (let i = 0; i < 250; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.5) * 6,
+          life: 100
+        });
       }
     }
+
+    function drawParticles() {
+      ctx.font = "20px monospace";
+      ctx.fillStyle = "red";
+      particles.forEach((p, index) => {
+        ctx.fillText(heart, p.x, p.y);
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+        if (p.life <= 0) particles.splice(index, 1);
+      });
+    }
+
+    function drawWord() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let x = canvas.width / 2 - 80;
+      let y = canvas.height / 2 - 100;
+
+      if (!showingFull) {
+        drawLetter(word[currentLetter], x, y, opacity);
+      } else {
+        drawLetter(word, canvas.width / 2 - 250, canvas.height / 2 - 100, 1, 2);
+      }
+
+      drawParticles();
+    }
+
+    function nextStep() {
+      if (currentLetter < word.length - 1) {
+        let fadeOut = setInterval(() => {
+          opacity -= 0.05;
+          if (opacity <= 0) {
+            clearInterval(fadeOut);
+            currentLetter++;
+            opacity = 1;
+            setTimeout(nextStep, 800);
+          }
+        }, 50);
+      } else {
+        // explosion et affichage final
+        createExplosion();
+        setTimeout(() => {
+          showingFull = true;
+          // afficher le texte romantique
+          document.getElementById("loveText").style.opacity = 1;
+        }, 2000);
+      }
+    }
+
+    setInterval(drawWord, 50);
+    setTimeout(nextStep, 800);
   </script>
 </body>
 </html>
